@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const genIndex = require('./utils/generateIndex.html');
 
 const managerQuestions = [
     {
@@ -30,6 +31,23 @@ const managerQuestions = [
         "Add intern",
         "Add engineer",
         "Finish"
-    ]
+        ]
     }
 ]
+
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, genIndex(data), function (err) {
+        if (err) {
+            return console.log(err);
+        }
+    })
+}
+
+function init() {
+    inquirer.prompt(managerQuestions).then((data) => {
+        console.log(JSON.stringify(data,null, " "));
+        writeToFile("../index.html", data);
+    })
+}
+
+init();
