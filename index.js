@@ -2,38 +2,89 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const genIndex = require('./utils/generateIndex.html');
 
-const managerQuestions = [
+const employeeQuestions = [
     {
     type: 'text',
-    name: 'managerName',
-    message: "What is the team manager's name?"
-    },
-    {
-    type: 'text',
-    name: 'managerID',
-    message: "Enter manager's employee id"
-    },
-    {
-    type: 'text',
-    name: 'managerEmail',
-    message: "Enter manager's email"
-    },
-    {
-    type: 'text',
-    name: 'managerOfficeNumber',
-    message: "Enter manager's office number"
-    },
-    {
-    type: 'list',
-    name: "addEmployee",
-    message: "Make selection to continue",
+    name: 'employeeType',
+    message: "What position is the new employee?",
     choices: [
-        "Add intern",
-        "Add engineer",
-        "Finish"
+        "Manager",
+        "Engineer",
+        "Intern"
         ]
+    },
+    {
+    type: 'text',
+    name: 'employeeName',
+    message: "What is the employee's name"
+    },
+    {
+    type: 'text',
+    name: 'employeeID',
+    message: "Enter employee id"
+    },
+    {
+    type: 'text',
+    name: 'employeeEmail',
+    message: "Enter employee's email"
     }
 ]
+
+const managerQuestion = [
+    {
+    type: 'text',
+    name: 'officeNum',
+    message: "Enter manager's office number"
+    }
+]
+
+const engineerQuestion = [
+    {
+    type: 'text',
+    name: 'github',
+    message: "Entern github username"
+    }
+]
+
+const internQuestion = [
+    {
+    type: 'text',
+    name: 'school',
+    message: "Entern intern's school"
+    }
+]
+
+function init() {
+    inquirer.prompt(employeeQuestions).then((data) => {
+        if (data.employeeType === 'Manager' || data.employeeType === 'manager') {
+            managerAsk(); 
+        }
+        if (data.employeeType === 'Engineer' || data.employeeType === 'engineer') {
+            engineerAsk(); 
+        }
+        if (data.employeeType === 'Intern' || data.employeeType === 'intern') {
+            internAsk(); 
+        }
+    })
+}
+
+function managerAsk() {
+    inquirer.prompt(managerQuestion).then((managerData) => {
+        console.log(managerData.officeNum)
+    })
+}
+
+function engineerAsk() {
+    inquirer.prompt(engineerQuestion).then((engineerData) => {
+        console.log(engineerData.github)
+    })
+}
+
+function internAsk() {
+    inquirer.prompt(internQuestion).then((internData) => {
+        console.log(internData.school)
+    })
+}
 
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, genIndex(data), function (err) {
@@ -43,11 +94,5 @@ function writeToFile(fileName, data) {
     })
 }
 
-function init() {
-    inquirer.prompt(managerQuestions).then((data) => {
-        console.log(JSON.stringify(data,null, " "));
-        writeToFile("../index.html", data);
-    })
-}
 
 init();

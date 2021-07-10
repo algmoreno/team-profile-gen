@@ -1,6 +1,7 @@
 const { test, expect } = require('@jest/globals');
 const { getMaxListeners } = require('process');
 const Employee = require('../lib/Employee')
+const Engineer = require('../lib/engineer');
 
 test ('This gets employee name', () => {
     const employee = new Employee('alan', 234234, 'amoreno@gmail.com')
@@ -21,7 +22,7 @@ test('This gets employee email', () => {
 })
 
 test('This gets employee github username', () => {
-    const employee = new Employee('alan', 234234, 'amoreno@gmail.com', 'github')
+    const employee = new Engineer('alan', 234234, 'amoreno@gmail.com', 'github')
 
     expect(employee.getGithub()).toBe('github')
 })
