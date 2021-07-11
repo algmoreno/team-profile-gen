@@ -1,5 +1,5 @@
 function genIndex(teamArray) {
-    return `
+   return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +12,21 @@ function genIndex(teamArray) {
     <nav>
         <h1>My Team</h1>
     </nav>
-<content>
+<content> 
+
+
+
+
 <h2>${teamArray[0].name}</h2>
+<p>${teamArray[0].id}</p>
+<p>${teamArray[0].email}</p>
+
+
 </content>
 </body>
 </html>
 `
 }
 
+
 module.exports = genIndex; 
-    
