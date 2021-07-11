@@ -6,8 +6,6 @@ const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
 const teamArray = [];
-// create two empty arrays stored in variables, within create employee function ask
-//questions. .then for new instances. Push new employee to team array, id to id array 
 
 const employeeType = () => {
     return inquirer.prompt([
@@ -58,9 +56,21 @@ const promptManager = () => {
     name: 'officeNum',
     message: "Enter manager's office number"
     },
+    {
+        type: 'list',
+        name: 'addMember',
+        message: 'Do you want to add another member?',
+        choices: [
+            'Yes',
+            'No'
+        ]
+        }
     ])
     .then((managerData) => {
         verifyEmployee(managerData)
+        if (managerData.addMember === 'Yes') {
+            employeeType(); 
+        }
     })
 }
 
@@ -85,10 +95,23 @@ const promptEngineer = () => {
     type: 'text',
     name: 'github',
     message: "Entern github username"
+    },
+    {
+    type: 'list',
+    name: 'addMember',
+    message: 'Do you want to add another member?',
+    choices: [
+        'Yes',
+        'No'
+    ]
     }
     ])
     .then((engineerData) => {
         verifyEmployee(engineerData)
+        if (engineerData.addMember === 'Yes') {
+            employeeType(); 
+        }
+
     })
 }
 
@@ -113,39 +136,56 @@ const promptIntern = () => {
     type: 'text',
     name: 'school',
     message: "Enter intern's school"
+    },
+    {
+    type: 'list',
+    name: 'addMember',
+    message: 'Do you want to add another member?',
+    choices: [
+            'Yes',
+            'No'
+        ]
     }
     ])
     .then((internData) => {
-        verifyEmployee(internData)
+        verifyEmployee(internData);
+        if (internData.addMember === 'Yes') {
+            employeeType(); 
+        }
     })
+        
+
 }
 
 function verifyEmployee(data) {
     if (data.officeNum) {
         const manager = new Manager(data.name, data.id, data.email, data.officeNum)
         teamArray.push(manager)
-        writeFile(manager);
+        writeFile();
     }
     else if (data.github) {
         const engineer = new Engineer(data.name, data.id, data.email, data.github)
         teamArray.push(engineer);
-        writeFile(engineer);
+        writeFile();
     }
     else if (data.school) {
         const intern = new Intern(data.name, data.id, data.email, data.school)
         teamArray.push(intern)
-        writeFile(intern);
+        writeFile();
     }
 }
 
-function writeFile(employee) {
-    fs.writeFile('./index.html', genIndex(employee), function (err) {
+function writeFile() {
+   
+    fs.writeFile('./index.html', genIndex(teamArray), function (err) {
         if (err) {
             return console.log(err);
         }
-        
     })
+
+    console.log(teamArray[1])
     
 }
+
 
 employeeType(); 

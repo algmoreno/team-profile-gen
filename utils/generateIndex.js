@@ -1,4 +1,4 @@
-function genIndex(employee) {
+function genIndex(teamArray) {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@ function genIndex(employee) {
         <h1>My Team</h1>
     </nav>
 <content>
-${employee.name}
+<h2>${teamArray[0].name}</h2>
 </content>
 </body>
 </html>
